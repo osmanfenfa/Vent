@@ -8,7 +8,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-j&!g#ye$1vc!k+sxw_@vrl=j1gq%*_(rba(-&w02)wh#kq9^ec'
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["vent-7smk.onrender.com"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
