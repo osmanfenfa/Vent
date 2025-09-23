@@ -54,14 +54,7 @@ WSGI_APPLICATION = 'ventsystem.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vent_db',
-        'USER': 'root',          
-        'PASSWORD': '749727660ofq#',  
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
 
 
