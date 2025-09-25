@@ -21,17 +21,14 @@ def register(request):
             try:
                 user = form.save()
                 username = form.cleaned_data.get('username')
-                
-                # Send verification email
-                send_verification_email(request, user)
+                send_verification_email(request, user) # email verification 
                 
                 messages.success(request, f'Account created for {username}! Please check your email to verify your account before logging in.')
                 return redirect('login')
             except Exception as e:
-                # Handle any unexpected errors during user creation
-                messages.error(request, f'An error occurred while creating your account: {str(e)}')
+                messages.error(request, f'An error occurred while creating your account: {str(e)}') # unexpected errors handling during user creation
         else:
-            # Add error messages for debugging
+            # messages debugging error
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f'{field}: {error}')
@@ -45,16 +42,14 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             
-            # Check email verification
-            try:
+            try: # Check email verification
                 profile = user.profile
                 if not profile.email_verified:
                     messages.error(request, 'Please verify your email address before logging in. Check your email for the verification link.')
                     return render(request, 'accounts/login.html', {'form': form})
             except Profile.DoesNotExist:
-                # If no profile exists, check if user is superuser
-                if user.is_superuser:
-                    # Create admin profile for superuser
+                
+                if user.is_superuser: # If no profile exists, check if superuser
                     Profile.objects.create(
                         user=user,
                         full_name=user.get_full_name() or user.username,
@@ -62,17 +57,14 @@ def login_view(request):
                         email_verified=True  # Superusers don't need email verification
                     )
                 else:
-                    # For regular users, create a student profile
                     Profile.objects.create(
                         user=user,
                         full_name=user.get_full_name() or user.username,
                         role='student',
                         email_verified=True  # For existing users, mark as verified
                     )
-            
-            login(request, user)
-            
-            # Redirect based on user role
+
+            login(request, user)   # Redirect based on user role
             try:
                 profile = user.profile
                 if profile.is_admin():
@@ -80,7 +72,6 @@ def login_view(request):
                 else:
                     return redirect('student_dashboard')
             except Profile.DoesNotExist:
-                # This shouldn't happen after the above creation, but just in case
                 return redirect('student_dashboard')
         else:
             # Handle authentication errors with more specific messages
@@ -91,15 +82,12 @@ def login_view(request):
                 messages.error(request, 'Please enter your email address or username.')
             elif not password:
                 messages.error(request, 'Please enter your password.')
-            else:
-                # Check if user exists by username or email
+            else: # Check if user exists by username or email
                 try:
-                    # First try to find by username
-                    user = User.objects.get(username=username)
+                    user = User.objects.get(username=username) # First find by username
                     messages.error(request, 'Invalid password. Please check your password and try again.')
                 except User.DoesNotExist:
-                    try:
-                        # If not found by username, try to find by email
+                    try: # If not found by username, by email
                         user = User.objects.get(email=username)
                         messages.error(request, 'Invalid password. Please check your password and try again.')
                     except User.DoesNotExist:
@@ -123,8 +111,7 @@ def send_verification_email(request, user):
         reverse('verify_email', kwargs={'uidb64': uid, 'token': token})
     )
     
-    subject = 'Verify Your Email Address - Vent System'
-    
+    subject = 'Verify Your Email Address - Vent'
     # Render HTML email template
     html_message = render_to_string('accounts/emails/email_verification.html', {
         'user': user,
@@ -141,7 +128,7 @@ def send_verification_email(request, user):
     If you didn't create an account, please ignore this email.
     
     Best regards,
-    Vent System Team
+    Vent Team
     """
     
     send_mail(
@@ -206,7 +193,7 @@ def send_password_reset_email(request, user):
         reverse('password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
     )
     
-    subject = 'Password Reset Request - Vent System'
+    subject = 'Password Reset Request - Vent'
     
     # Render HTML email template
     html_message = render_to_string('accounts/emails/password_reset_email.html', {
@@ -224,7 +211,7 @@ def send_password_reset_email(request, user):
     If you didn't request this, please ignore this email.
     
     Best regards,
-    Vent System Team
+    Vent Team
     """
     
     send_mail(
