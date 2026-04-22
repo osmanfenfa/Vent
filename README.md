@@ -1,13 +1,14 @@
-# Vent
+<div align="center">
 
+# Vent
 Vent is a Django-based student complaint management system built for handling campus-related complaints in a structured way. Students can create accounts, verify their email, submit complaints either anonymously or with their identity attached, and monitor the progress of their non-anonymous submissions. Admins can review all complaints, filter them, assign responsibility, and update complaint status from a dedicated dashboard.
-  
+
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![Django 5.2](https://img.shields.io/badge/Django-5.2-092E20?style=flat-square&logo=django&logoColor=white)](https://djangoproject.com)
 [![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)](https://mysql.com)
 [![Django Templates](https://img.shields.io/badge/Django_Templates-092E20?style=flat-square&logo=django&logoColor=white)](https://docs.djangoproject.com/en/stable/topics/templates/)
 
-<div align="center">
+</div>
 
 ## What It Does
 
